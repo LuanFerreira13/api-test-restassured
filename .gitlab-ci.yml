@@ -1,0 +1,18 @@
+stages:
+  - test
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false" # Desabilita o daemon para pipelines.
+
+test:
+  stage: test
+  image: gradle:8.11-jdk21
+  script:
+    - gradle clean test
+  artifacts:
+    when: always
+    paths:
+      - build/reports/tests/test/index.html
+      - build/test-results/test/*.xml
+    reports:
+      junit: build/test-results/test/*.xml
